@@ -1,0 +1,9 @@
+<div ng-if="user.userLoggedIn === false">
+  Signup Form
+  <form ng-submit="user.createNewAccount()">
+    <input type="text" ng-model="user.username" placeholder="Enter your email" />
+    <input type="password" ng-model="user.password" placeholder="Enter a password" />
+    <button type="submit">Create Account</button>
+    {{user.loginError}}
+  </form>
+</div>
