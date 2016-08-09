@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/karlmorand/shared-todo#readme",
   "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-session": "^1.14.0",
     "mongoose": "^4.5.8"
   }
 }

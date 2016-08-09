@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="SharedTodoApp" lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <base href="/">
     <title>Shared Todo</title>
   </head>
-  <body>
-    Shared TODO
+  <body ng-controller="UserController as user">
+    shared todo
+    <div ng-include="'partials/signup.html'">
+
+    </div>
 
   </body>
 </html>
