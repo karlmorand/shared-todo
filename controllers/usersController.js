@@ -12,8 +12,6 @@ router.post('/signup', function(req, res){
       User.create(req.body, function(err, newUser){
         req.session.loggedInUserId = newUser._id
         newUser.save();
-        console.log('creating new user:');
-        console.log(newUser);
         res.send(newUser);
       })
     } else {
@@ -69,6 +67,19 @@ router.post('/newList', function(req, res){
 })
 })
 
+router.post('/login', function(req, res){
+
+  User.findOne({username: req.body.username}, function(err, foundUser){
+    if (foundUser === null) {
+      res.send('no user');
+    } else if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
+      res.send('password')
+    } else {
+      req.session.loggedInUserId = foundUser._id;
+      res.send(foundUser);
+    }
+  })
+})
 
 
 module.exports = router;

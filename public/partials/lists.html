@@ -1,4 +1,4 @@
-<!-- <div ng-if="user.showView === allLists"> -->
+<div ng-if="user.userLoggedIn !== null">
 <h2>Lists</h2>
   <div ng-repeat="list in user.listsCreated">
     <h3>{{list.listName}}</h3>
@@ -10,4 +10,4 @@
     </div>
   </div>
 
-<!-- </div> -->
+</div>

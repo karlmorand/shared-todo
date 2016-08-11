@@ -12,9 +12,13 @@
   </head>
   <body ng-controller="UserController as user">
     shared todo
+    Current user is: <h3>{{user.userLoggedIn.username}}</h3>
+    <input type="button" ng-click="user.logout()" value="Logout">
     <div ng-include="'partials/signup.html'"></div>
     <div ng-include="'partials/addList.html'"></div>
     <div ng-include="'partials/lists.html'"></div>
+    <div ng-include="'partials/login.html'"></div>
+
 
   </body>
 </html>
