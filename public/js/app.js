@@ -37,19 +37,15 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
         method: "GET",
         url: '/users/' + controller.userLoggedIn._id + '/lists'
       }).then(function(response){
-        console.log('getLists function returned with:');
-        console.log(response.data);
-        controller.listsCreated = response.data.listsCreated;
-        controller.listsSubscribed = response.data.listsSubscribed;
+        controller.listsCreated = response.data
+        // controller.listsSubscribed = response.data.listsSubscribedToSend;
       }, function(response){
         console.log('error getting lists');
       })
     }
 
     this.createList = function(newListName){
-      var newListId = Math.floor(Math.random()*1000000000000);
-
-      var newList = {'listId': newListId, 'listName': newListName, 'listCreator': controller.userLoggedIn._id}
+      var newList = {'listName': newListName, 'listCreator': controller.userLoggedIn._id}
       $http({
         method: "POST",
         url: '/users/newList',
@@ -74,6 +70,7 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
           controller.loginError = "Incorrect password"
         } else {
           controller.userLoggedIn = response.data
+          controller.getLists();
         }
         controller.usernameLogin = null;
         controller.passwordLogin = null;
@@ -82,5 +79,18 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
 
     this.logout = function(){
       controller.userLoggedIn = null;
+    }
+
+    this.addTodo = function(listId){
+      console.log(listId);
+      $http({
+        method: "POST",
+        url: '/users/lists/addtodo',
+        data: {'listId': listId, 'todo': controller.newTodo}
+      }).then(function(response){
+        console.log();
+        controller.newTodo = null;
+        controller.getLists();
+      })
     }
 }])
