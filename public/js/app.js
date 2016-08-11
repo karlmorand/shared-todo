@@ -3,8 +3,9 @@ var app = angular.module('SharedTodoApp', ['ngRoute']);
 
 app.controller('UserController', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
 
-    this.userLoggedIn = false;
+    this.userLoggedIn = null;
     var controller = this;
+
 
     this.createNewAccount = function() {
         controller.loginError = null;
@@ -18,22 +19,43 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
             url: '/users/signup',
             data: newUser
         }).then(function(response) {
-          console.log('Response:');
-          console.log(response);
             if (response.data.username) {
-              console.log('ready to get lists');
-                // this.getLists(response.data.username)
+              controller.userLoggedIn = response.data._id
+              controller.getLists()
             } else {
               controller.loginError = "Username already exists"
             }
         }, function(response) {
             console.log(response);
         });
-
     }
 
-    //Write getLists() function
+    this.getLists = function() {
+      console.log('now in the getlists funciton');
+      $http({
+        method: "GET",
+        url: '/users/' + controller.userLoggedIn + '/lists'
+      }).then(function(response){
+        console.log('getLists function returned with:');
+        console.log(response.data);
+        controller.listsCreated = response.data.listsCreated;
+        controller.listsSubscribed = response.data.listsSubscribed;
+      })
+    }
 
+    this.createList = function(newListName){
+      var newListId = Math.floor(Math.random()*1000000000000);
 
+      var newList = {'listId': newListId, 'listName': newListName, 'listCreator': controller.userLoggedIn}
+      $http({
+        method: "POST",
+        url: '/users/newList',
+        data: newList
+      }).then(function(response){
+        controller.newListName = "";
+        console.log('new list created');
+        controller.getLists();
+      })
+    }
 
 }])

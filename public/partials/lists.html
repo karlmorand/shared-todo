@@ -1,0 +1,13 @@
+<!-- <div ng-if="user.showView === allLists"> -->
+<h2>Lists</h2>
+  <div ng-repeat="list in user.listsCreated">
+    <h3>{{list.listName}}</h3>
+    <ul>
+        <div ng-repeat="todo in list.todos">
+        <li>{{todo}}</li>
+    </ul>
+
+    </div>
+  </div>
+
+<!-- </div> -->
