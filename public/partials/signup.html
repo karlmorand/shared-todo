@@ -1,4 +1,4 @@
-<div ng-if="user.userLoggedIn === false">
+<div ng-if="user.userLoggedIn === null">
   Signup Form
   <form ng-submit="user.createNewAccount()">
     <input type="text" ng-model="user.username" placeholder="Enter your email" />
