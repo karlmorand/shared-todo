@@ -21,36 +21,24 @@ router.post('/signup', function(req, res){
 })
 
 router.get('/:id/lists', function(req, res){
-  lists = {'listsCreated': [], 'listsSubscribed': []};
-
-  if (req.session.loggedInUserId === req.params.id) {
-    User.findOne({_id: req.params.id}, function(err, foundUser){
-      console.log('getlists route sending back:');
-      console.log(foundUser);
-      // foundUser.listsCreated.forEach(function(listIdNum){
-      //   List.findOne({listId:listIdNum}, function(err, foundList){
-      //     lists.listsCreated.push(foundList)
-      //   })
-      // })
-      // foundUser.listsSubscribed.forEach(function(listIdNum){
-      //   List.findOne({listId:listIdNum}, function(err, foundList){
-      //     lists.listsSubscribed.push(foundList)
-      //   })
-      // })
-      res.send(foundUser)
-    })
-
-  }
-})
-
-//Edit todos on a list
-router.post('/:userId/:listId', function(req, res){
-  List.findOne({listId: req.params.listId}, function(err, foundList){
-    foundList.todos = req.body;
-    foundList.save();
-    res.send();
+  List.find({listCreator: req.params.id}, function(err, listsCreated){
+    res.send(listsCreated);
   })
 })
+
+
+
+
+
+
+//Edit todos on a list
+// router.post('/:userId/:listId', function(req, res){
+//   List.findOne({listId: req.params.listId}, function(err, foundList){
+//     foundList.todos = req.body;
+//     foundList.save();
+//     res.send();
+//   })
+// })
 
 //Create new list
 router.post('/newList', function(req, res){
@@ -59,8 +47,9 @@ router.post('/newList', function(req, res){
       if (err) {
         console.log(err);
       } else {
-        foundUser.listsCreated.push(newList);
+        foundUser.listsCreated.push(newList._id);
         foundUser.save()
+        newList.save()
         res.send();
       }
     })
@@ -81,5 +70,13 @@ router.post('/login', function(req, res){
   })
 })
 
+router.post('/lists/addtodo', function(req, res){
+  List.findOne({_id: req.body.listId}, function(err, foundList){
+    var newTodo = req.body.todo
+    foundList.todos.push(newTodo);
+    foundList.save();
+    res.send();
+  })
+})
 
 module.exports = router;

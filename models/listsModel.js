@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var listSchema = mongoose.Schema({
-  listId : Number,
   listName : String,
   listCreator : String,
   todos : [],

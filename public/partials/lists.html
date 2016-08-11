@@ -2,12 +2,17 @@
 <h2>Lists</h2>
   <div ng-repeat="list in user.listsCreated">
     <h3>{{list.listName}}</h3>
+    {{list.listCreator}}
     <ul>
-        <div ng-repeat="todo in list.todos">
-        <li>{{todo}}</li>
+      <div ng-repeat="todo in list.todos">
+        <li>{{todo}}</li
+      </div>
     </ul>
+    <form ng-submit="user.addTodo(list._id)">
+      <input type="text" ng-model="user.newTodo" placeholder="Enter new item">
+      <button type="submit">Add item</button>
+    </form>
 
-    </div>
   </div>
 
 </div>
