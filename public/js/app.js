@@ -127,4 +127,16 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
         controller.getLists();
       })
     }
+
+    this.toggleDone = function(todo, listId){
+    $http({
+      method: 'POST',
+      url: '/users/lists/toggledone/' + todo.todoId + '/' + listId
+    }).then(function(response){
+      controller.editTodo = null;
+      controller.getLists();
+    })
+}
+
+
 }])

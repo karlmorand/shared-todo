@@ -72,7 +72,7 @@ router.post('/login', function(req, res){
 
 router.post('/lists/addtodo', function(req, res){
   List.findOne({_id: req.body.listId}, function(err, foundList){
-    var newTodo = {'todoName':req.body.todo, 'todoId': req.body.todoId}
+    var newTodo = {'todoName':req.body.todo, 'todoId': req.body.todoId, 'done': false}
     foundList.todos.push(newTodo);
     foundList.save();
     res.send();
@@ -98,17 +98,32 @@ router.post('/lists/edittodo', function(req, res){
 //Delete a todo
 router.delete('/lists/deletetodo/:todoId/:listId', function(req, res){
   List.findOne({_id: req.params.listId}, function(err, foundList){
-    var index = null;
-    var newTodos = [];
-    for (var i = 0; i < foundList.todos.length; i++) {
-      if (foundList.todos[i] === req.params.todoId) {
-          index = i
-          break;
+    var todoIndex = foundList.todos.findIndex(function(todo){
+      if (todo.todoId == req.params.todoId) {
+        return true;
       }
-    }
-    newTodos = foundList.todos;
-    newTodos.splice(index, 1);
-    List.findOneAndUpdate({_id: req.params.listId}, {$set: {todos: newTodos}}, function(err, doc){
+    })
+    foundList.todos.splice(todoIndex, 1);
+    foundList.save();
+    res.send()
+  })
+})
+
+
+router.post('/lists/toggledone/:todoId/:listId', function(req, res){
+  List.findOne({_id: req.params.listId}, function(err, foundList){
+    var newTodos = []
+    console.log('found list:');
+    console.log(foundList);
+    var todoIndex = foundList.todos.findIndex(function(todo){
+      if (todo.todoId == req.params.todoId) {
+        return true;
+      }
+    })
+    console.log(foundList.todos[todoIndex].done);
+    foundList.todos[todoIndex].done = !foundList.todos[todoIndex].done
+    var newTodos = foundList.todos
+    List.findOneAndUpdate({_id:req.params.listId}, {$set:{todos:newTodos}}, function(){
       res.send();
     })
   })
