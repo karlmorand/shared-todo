@@ -2,10 +2,11 @@
 <h2>Lists</h2>
   <div ng-repeat="list in user.listsCreated">
     <h3>{{list.listName}}</h3>
-    {{list.listCreator}}
     <ul>
       <div ng-repeat="todo in list.todos">
-        <li>{{todo}}</li
+        <li ng-click="user.toggleTodoEdit(todo)">
+          <div ng-include="'partials/todoDetail.html'"></div>
+        </li>
       </div>
     </ul>
     <form ng-submit="user.addTodo(list._id)">

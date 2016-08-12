@@ -5,6 +5,7 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
 
     this.userLoggedIn = null;
     var controller = this;
+    controller.editTodo = null;
 
     this.createNewAccount = function() {
         controller.loginError = null;
@@ -82,14 +83,47 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
     }
 
     this.addTodo = function(listId){
-      console.log(listId);
+      var todoId = Math.floor(Math.random()*1000000000000);
       $http({
         method: "POST",
         url: '/users/lists/addtodo',
-        data: {'listId': listId, 'todo': controller.newTodo}
+        data: {'listId': listId, 'todo': controller.newTodo, 'todoId': todoId}
       }).then(function(response){
-        console.log();
         controller.newTodo = null;
+        controller.getLists();
+      })
+    }
+
+    this.toggleTodoEdit = function(todo){
+      // if (controller.editTodo === null) {
+      //   controller.editTodo = todo;
+      // } else if (controller.editTodo === todo){
+      //   controller.editTodo = null;
+      // } else {
+      //   controller.editTodo = todo;
+      // }
+      controller.editTodo = todo;
+    }
+    this.submitTodoEdits = function(todo, listId){
+      console.log('submit edit button clicked');
+      $http({
+        method: "POST",
+        url: '/users/lists/edittodo',
+        data: {'todo': todo, 'listId': listId}
+      }).then(function(response){
+        controller.editTodo = null;
+        controller.getLists();
+      }, function(response){
+        console.log(response);
+      })
+    }
+
+    this.deleteTodo = function(todo, listId){
+      $http({
+        method: 'DELETE',
+        url: '/users/lists/deletetodo/' + todo.todoId + '/' + listId
+      }).then(function(response){
+        controller.editTodo = null;
         controller.getLists();
       })
     }
