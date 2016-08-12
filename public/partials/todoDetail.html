@@ -1,10 +1,16 @@
 <div ng-if="user.editTodo.todoId !== todo.todoId">
-  {{todo.todoName}} - hello
+  {{todo.todoName}}
 </div>
 <div ng-if="user.editTodo.todoId === todo.todoId">
   <form>
     <input type="text" ng-model="user.editTodo.todoName">
     <button type="button" ng-click="user.submitTodoEdits(todo, list._id)">Update</button>
     <button type="button" ng-click="user.deleteTodo(todo, list._id)">Delete</button>
+    <div ng-if="todo.done === false">
+    <button type="button" ng-click="user.toggleDone(todo, list._id)">Mark Done</button>
+    </div>
+    <div ng-if="todo.done === true">
+    <button type="button" ng-click="user.toggleDone(todo, list._id)">Mark Undone</button>
+    </div>
   </form>
 </div>

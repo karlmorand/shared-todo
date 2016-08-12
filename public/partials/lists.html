@@ -4,15 +4,35 @@
     <h3>{{list.listName}}</h3>
     <ul>
       <div ng-repeat="todo in list.todos">
+        <div ng-if="todo.done === false">
         <li ng-click="user.toggleTodoEdit(todo)">
           <div ng-include="'partials/todoDetail.html'"></div>
         </li>
+      </div>
       </div>
     </ul>
     <form ng-submit="user.addTodo(list._id)">
       <input type="text" ng-model="user.newTodo" placeholder="Enter new item">
       <button type="submit">Add item</button>
     </form>
+    <ul>
+      <div ng-if="list.todos.length > 0">
+        <div ng-click="user.toggleShowCompleted()">
+          <h4 ng-if="user.showCompleted === true">Completed Items</h4>
+          <h4 ng-if="user.showCompleted === false">Show Completed Items</h4>
+        </div>
+        <div ng-if="user.showCompleted === true">
+          <div ng-repeat="todo in list.todos">
+            <div ng-if="todo.done === true">
+            <li ng-click="user.toggleTodoEdit(todo)">
+              <div ng-include="'partials/todoDetail.html'"></div>
+            </li>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ul>
+
 
   </div>
 
