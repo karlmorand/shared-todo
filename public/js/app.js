@@ -112,9 +112,19 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
         data: {'todo': todo, 'listId': listId}
       }).then(function(response){
         controller.editTodo = null;
-        // controller.getLists();
+        controller.getLists();
       }, function(response){
         console.log(response);
+      })
+    }
+
+    this.deleteTodo = function(todo, listId){
+      $http({
+        method: 'DELETE',
+        url: '/users/lists/deletetodo/' + todo.todoId + '/' + listId
+      }).then(function(response){
+        controller.editTodo = null;
+        controller.getLists();
       })
     }
 }])
