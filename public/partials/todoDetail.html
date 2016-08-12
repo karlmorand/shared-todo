@@ -1,0 +1,9 @@
+<div ng-if="user.editTodo.todoId !== todo.todoId">
+  {{todo.todoName}} - hello
+</div>
+<div ng-if="user.editTodo.todoId === todo.todoId">
+  <form>
+    <input type="text" ng-model="user.editTodo.todoName">
+    <button type="button" ng-click="user.submitTodoEdits(todo, list._id)">Update</button>
+  </form>
+</div>

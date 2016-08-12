@@ -72,10 +72,28 @@ router.post('/login', function(req, res){
 
 router.post('/lists/addtodo', function(req, res){
   List.findOne({_id: req.body.listId}, function(err, foundList){
-    var newTodo = req.body.todo
+    var newTodo = {'todoName':req.body.todo, 'todoId': req.body.todoId}
     foundList.todos.push(newTodo);
     foundList.save();
     res.send();
+  })
+})
+
+//Edit a todo
+router.post('/lists/edittodo', function(req, res){
+  var newTodos = [];
+  List.findOne({_id: req.body.listId}, function(err, foundList){
+    console.log('found the list');
+    console.log(foundList);
+    for (var i = 0; i < foundList.todos.length; i++) {
+      if (foundList.todos[i].todoId === req.body.todo.todoId) {
+        foundList.todos[i] = req.body.todo;
+      }
+    }
+    newTodos = foundList.todos
+    List.findOneAndUpdate({_id: req.body.listId}, {$set:{todos:newTodos}}, function(err, doc){
+          res.send(foundList)
+    })
   })
 })
 
