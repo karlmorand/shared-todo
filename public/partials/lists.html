@@ -16,13 +16,20 @@
       <button type="submit">Add item</button>
     </form>
     <ul>
-      <h4 ng-if="list.todos.length > 0">Completed Items</h4>
-      <div ng-repeat="todo in list.todos">
-        <div ng-if="todo.done === true">
-        <li ng-click="user.toggleTodoEdit(todo)">
-          <div ng-include="'partials/todoDetail.html'"></div>
-        </li>
-      </div>
+      <div ng-if="list.todos.length > 0">
+        <div ng-click="user.toggleShowCompleted()">
+          <h4 ng-if="user.showCompleted === true">Completed Items</h4>
+          <h4 ng-if="user.showCompleted === false">Show Completed Items</h4>
+        </div>
+        <div ng-if="user.showCompleted === true">
+          <div ng-repeat="todo in list.todos">
+            <div ng-if="todo.done === true">
+            <li ng-click="user.toggleTodoEdit(todo)">
+              <div ng-include="'partials/todoDetail.html'"></div>
+            </li>
+            </div>
+          </div>
+        </div>
       </div>
     </ul>
 
