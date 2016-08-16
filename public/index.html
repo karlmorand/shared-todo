@@ -13,12 +13,16 @@
     <base href="/">
     <title>Shared Todo</title>
   </head>
-  <body ng-controller="UserController as user">
-    shared todo
-    Current user is: <h3>{{user.userLoggedIn.username}}</h3>
+  <body class="container" ng-controller="UserController as user">
+  <h1>Shared ToDo</h1>
+    <!-- Current user is: <h3>{{user.userLoggedIn.username}}</h3> -->
+    <div ng-if="user.userLoggedIn !== null">
     <input type="button" ng-click="user.logout()" value="Logout">
-    <div ng-include="'partials/signup.html'"></div>
     <div ng-include="'partials/addList.html'"></div>
+    </div>
+
+    <div ng-include="'partials/signup.html'"></div>
+
     <div ng-include="'partials/lists.html'"></div>
     <div ng-include="'partials/listsSubscribed.html'"></div>
     <div ng-include="'partials/pendingLists.html'"></div>
