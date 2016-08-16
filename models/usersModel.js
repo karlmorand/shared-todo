@@ -4,7 +4,7 @@ var userSchema = mongoose.Schema({
   username : String,
   password : String,
   listsCreated : [],
-  listsSubscribed : [], //{listid, status, listcreator}
+  listsSubscribed : []
 });
 
 var User = mongoose.model('User', userSchema);

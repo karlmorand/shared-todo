@@ -27,13 +27,17 @@ router.get('/:id/lists', function(req, res){
     User.findOne({_id:req.params.id}, function(err, foundUser){
       foundUser.listsSubscribed.forEach(function(list){
         if (list.status === 'pending') {
+          console.log('Pending list:');
+          console.log(list);
           pendingLists.push(list);
         } else if (list.status === 'subscribed') {
+          console.log('Subscribed list:');
+          console.log(list);
           subscribedLists.push(list)
         }
       })
       var dataToSend = {'listsCreated':listsCreated, 'pendingLists': pendingLists, 'subscribedLists': subscribedLists}
-      console.log(dataToSend);
+
       res.send(dataToSend);
     })
 
@@ -169,6 +173,23 @@ router.post('/lists/sendinvite', function(req, res){
 
   })
 
+})
+
+router.post('/lists/subscribetolist', function(req, res){
+  console.log('in subscribetolist route');
+  var newSubList = []
+  User.findOne({_id:req.session.loggedInUserId}, function(err, foundUser){
+    foundUser.listsSubscribed.forEach(function(list){
+      if (list._id === req.body.list._id) {
+        console.log('found matching list');
+        list.status = "subscribed"
+      }
+      newSubList.push(list)
+    })
+    User.findOneAndUpdate({_id: req.session.loggedInUserId}, {$set:{listsSubscribed:newSubList}}, function(){
+      res.send()
+    })
+  })
 })
 
 module.exports = router;

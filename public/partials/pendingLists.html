@@ -2,6 +2,8 @@
   <h3>Pending Invites</h3>
   <div ng-repeat="list in user.pendingLists">
     <h2>{{list.listName}}</h2>
+    <button type="button" ng-click="user.subscribeToList(list)">Subscribe to list</button>
+    <button type="button" ng-click="user.rejectList(list)">Reject list</button>
   </div>
 
 

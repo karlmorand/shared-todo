@@ -153,7 +153,19 @@ this.sendListInvite = function(list, userToInvite){
     data: {'list': list, 'userToInvite': userToInvite}
   }).then(function(response){
     console.log(response);
+    controller.userToInvite = null;
 
+  })
+}
+
+this.subscribeToList = function(list){
+  $http({
+    method: "POST",
+    url: '/users/lists/subscribetolist',
+    data: {'list':list}
+  }).then(function(response){
+    console.log(response);
+    controller.getLists();
   })
 }
 
