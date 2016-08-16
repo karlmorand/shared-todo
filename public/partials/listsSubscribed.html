@@ -1,6 +1,6 @@
 <div ng-if="user.userLoggedIn !== null">
-<h2>Lists</h2>
-  <div ng-repeat="list in user.listsCreated">
+<h2>Lists Subscribed</h2>
+  <div ng-repeat="list in user.listsSubscribed">
     <h3>{{list.listName}}</h3>
     <ul>
       <div ng-repeat="todo in list.todos">

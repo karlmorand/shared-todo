@@ -39,7 +39,10 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
         method: "GET",
         url: '/users/' + controller.userLoggedIn._id + '/lists'
       }).then(function(response){
-        controller.listsCreated = response.data
+        controller.listsCreated = response.data.listsCreated;
+        controller.listsSubscribed = response.data.subscribedLists
+        controller.pendingLists = response.data.pendingLists
+        console.log(response.data);
         // controller.listsSubscribed = response.data.listsSubscribedToSend;
       }, function(response){
         console.log('error getting lists');
@@ -141,6 +144,17 @@ app.controller('UserController', ['$scope', '$routeParams', '$http', function($s
 
 this.toggleShowCompleted = function(){
   controller.showCompleted = !controller.showCompleted
+}
+
+this.sendListInvite = function(list, userToInvite){
+  $http({
+    method: "POST",
+    url:'/users/lists/sendinvite',
+    data: {'list': list, 'userToInvite': userToInvite}
+  }).then(function(response){
+    console.log(response);
+
+  })
 }
 
 

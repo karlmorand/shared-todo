@@ -1,0 +1,8 @@
+<div ng-if="user.userLoggedIn !== null">
+  <h3>Pending Invites</h3>
+  <div ng-repeat="list in user.pendingLists">
+    <h2>{{list.listName}}</h2>
+  </div>
+
+
+</div>
