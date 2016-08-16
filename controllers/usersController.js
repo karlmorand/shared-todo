@@ -27,18 +27,18 @@ router.get('/:id/lists', function(req, res){
     User.findOne({_id:req.params.id}, function(err, foundUser){
       foundUser.listsSubscribed.forEach(function(list){
         if (list.status === 'pending') {
-          console.log('Pending list:');
-          console.log(list);
           pendingLists.push(list);
         } else if (list.status === 'subscribed') {
-          console.log('Subscribed list:');
+          console.log('found subscribed list');
           console.log(list);
-          subscribedLists.push(list)
+          subscribedLists.push(list.listId)
         }
       })
-      var dataToSend = {'listsCreated':listsCreated, 'pendingLists': pendingLists, 'subscribedLists': subscribedLists}
+      List.find({_id: subscribedLists[0]}, function(err, subLists){
+        var dataToSend = {'listsCreated':listsCreated, 'pendingLists': pendingLists, 'subscribedLists': subLists}
+        res.send(dataToSend);
+      })
 
-      res.send(dataToSend);
     })
 
   })
